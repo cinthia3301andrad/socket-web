@@ -12,7 +12,7 @@ servidor.bind((myHost, myPort)) #vincula servidor e porta
 
 servidor.listen() #modo de escuta
 
-print('Servidor online!')
+print('Servidor online! Acesse: http://localhost:50005')
 
 while True:
     conexao , endereco = servidor.accept()
@@ -36,6 +36,8 @@ while True:
         header = 'HTTP/1.1 200 OK\n' #se nao tiver nenhum erro, temos um status 200 para o cabeçalho
         if(myfile == 'index.html'):
             MIMEtype = 'text/html' #MIME type é o mecanismo para dizer ao cliente a variedade de documentos transmitidos
+        elif(myfile == 'flor.jpg' or myfile == 'minion.jpg'):
+            MIMEtype = 'image/jpeg'
         else:
             MIMEtype = 'text/plain'
         header += 'Content-Type: '+str(MIMEtype)+'\n\n' #adicionamos ele ao header
