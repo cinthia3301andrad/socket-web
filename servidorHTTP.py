@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import socket
 
-myHost =  'localhost'
+myHost =  'localhost' #meu host local
 
-myPort = 50008
+myPort = 50008 #minha porta
 
 # parametros (familia de protocolo, tipo de protocolo)
 servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #IPV4, TCP
@@ -12,12 +12,12 @@ servidor.bind((myHost, myPort)) #vincula servidor e porta
 
 servidor.listen() #modo de escuta
 
-print('Servidor online! Acesse: http://localhost:50005')
+print('Servidor online! Acesse: ', myPort)
 
 while True:
-    conexao , endereco = servidor.accept()
+    conexao , endereco = servidor.accept() #accept é um metodo que retorna a conexao e o endereço da conexao
     print('Servidor conectado em ', endereco)
-    request = conexao.recv(1024).decode('utf-8')
+    request = conexao.recv(1024).decode('utf-8') #ao receber o request devemos especificar o tamanho e decodificar para UFC-8 nesse caso
    
     string_list = request.split(' ')
     method = string_list[0] #metodo do meu request
@@ -36,8 +36,6 @@ while True:
         header = 'HTTP/1.1 200 OK\n' #se nao tiver nenhum erro, temos um status 200 para o cabeçalho
         if(myfile == 'index.html'):
             MIMEtype = 'text/html' #MIME type é o mecanismo para dizer ao cliente a variedade de documentos transmitidos
-        elif(myfile == 'flor.jpg' or myfile == 'minion.jpg'):
-            MIMEtype = 'image/jpeg'
         else:
             MIMEtype = 'text/plain'
         header += 'Content-Type: '+str(MIMEtype)+'\n\n' #adicionamos ele ao header
@@ -50,5 +48,6 @@ while True:
 
     final_response = header.encode('utf-8')
     final_response += response
+   
     conexao.send(final_response) #o que vai aparecer coomo resposta para o cliente
     conexao.close()
